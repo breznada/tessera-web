@@ -450,9 +450,12 @@
      puts the plaintext back and then takes it away again.                    */
   function buildControl(){
     const grid = $('#control'); if(!grid) return;
-    const cells = Array.from(grid.querySelectorAll('.cell'));
+    /* the stylesheet hides the tail of the grid on narrow viewports, so take the
+       count from what is laid out rather than from how many cells exist */
+    const cells = Array.from(grid.querySelectorAll('.cell')).filter(c => c.getClientRects().length > 0);
     if(!cells.length) return;
-    const done = $('#ctrl-done'), n = {v:0};
+    const done = $('#ctrl-done'), total = $('#ctrl-total'), n = {v:0};
+    if(total) total.textContent = String(cells.length);
 
     const tl = gsap.timeline({paused:true});
     tl.call(()=>{
@@ -472,6 +475,7 @@
       cells.forEach(c=>{ c.classList.remove('is-open');
         c.querySelector('.v').textContent = '\u2022'.repeat(10) });
       done.textContent = String(cells.length);
+      if(total) total.textContent = String(cells.length);
     }};
   }
 
