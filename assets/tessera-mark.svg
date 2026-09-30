@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" role="img" aria-label="Tessera">
+  <title>Tessera — display cut</title>
+  <clipPath id="t"><rect x="10" y="10" width="80" height="80" rx="9"/></clipPath>
+  <g clip-path="url(#t)">
+    <rect x="10" y="10" width="80" height="80" fill="#0A0A0A"/>
+    <path d="M50,6 V38 H30 V50 H70 V62 H50 V94" fill="none" stroke="#FFFFFF" stroke-width="3.2"/>
+  </g>
+</svg>
