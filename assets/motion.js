@@ -18,7 +18,9 @@
   function readTokens(){
     const cs = getComputedStyle(document.documentElement);
     const g = n => cs.getPropertyValue('--'+n).trim();
-    C = {ink:g('ink'), paper:g('paper'), surf:g('surf'), dim:g('third'),
+    /* concept: the brand colour is back, so the diagrams draw in citrine on navy
+       rather than in one ink. 'ink' is the secured/accent role, not body text. */
+    C = {ink:g('accent'), paper:g('paper'), surf:g('surf'), dim:g('third'),
          exposed:g('a-70'), faint:g('a-45'), spent:g('a-25'), line:g('a-12')};
   }
   const mark = n => ICONS[n] ? '<svg viewBox="'+ICONS[n].vb+'" aria-hidden="true"><path d="'+ICONS[n].d[0]+'"/></svg>' : '';
@@ -541,6 +543,7 @@
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change', ()=>
     requestAnimationFrame(()=> requestAnimationFrame(build)));
 
+  window.__tesseraRebuild = build;
   build();
   /* chip widths depend on the webfont, so pack again once it lands */
   if(document.fonts && document.fonts.ready) document.fonts.ready.then(build);

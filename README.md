@@ -19,21 +19,29 @@ Repo: `git@github.com:breznada/tessera-web.git` (větev `main`).
 
 ## Barvy a písmo
 
-Jedna barva, podle pravidla značky. Na celém webu není **žádná barevná hodnota** —
-všechny odstíny jsou achromatické. Rozlišení stavu nese tvar, ne odstín:
+Vychází z logo konceptu. Barvy jsou odečtené z pixelů originálu, ne odhadnuté.
 
-| Stav | Jak se pozná |
-|---|---|
-| zabezpečeno, vyřešeno | plná výplň, plný rámeček |
-| venku, nevyřešeno | obrys, čárkovaný rámeček |
-| **nález** | **inverze** — jediný poplašný signál, který web má |
-| spotřebováno, nahrazeno | světle šedá |
+| Token | Hodnota | Role |
+|---|---|---|
+| `--gold` | `#EFD750` | citrínová — **výplň**. Vždy s `--on-gold` textem na sobě |
+| `--accent` | `#EFD750` | linka a text akcentu (na tmavé je totožná se zlatou) |
+| `--paper` | `#0E1730` | navy podklad |
+| `--surf` | `#16213F` | plochy a diagramy |
+| `--ink` | `#F4F6FB` | text |
 
-Písmo: **Archivo** (nadpisy, UI) a **JetBrains Mono** (data, popisky v animacích).
-Slovní značka má prostrkání `0.22em` — každé písmeno jako samostatná dlaždice.
+**Zlatá má dvě role a nejsou zaměnitelné.** Jako výplň nese navy text (11,5:1).
+Jako linka funguje jen na tmavém podkladu — na bílé má `#EFD750` kontrast
+**1,45:1**, takže ve světlé variantě by akcent musel být navy a zlatá by zbyla
+jen na výplně. Proto je web tmavý: je to register, ve kterém má značka plnou sílu.
 
-Tmavý režim se řídí `prefers-color-scheme`; tokeny se převrátí a značka s nimi,
-protože bere barvu z `--mk-ink` / `--mk-paper`.
+Kontrast: zlatá na navy 12,3:1, text 16,4:1, tlumený text 5,3:1.
+
+Písmo: **Outfit** (nadpisy, UI) a **JetBrains Mono** (data, popisky v animacích).
+Outfit je nejbližší volná shoda s geometrickým řezem slovní značky — jednopatrové
+„a", vodorovná zakončení. Slovní značka je psaná **minuskami**, ne verzálkami.
+
+Značka je překreslená jako inline SVG (kosočtverec se zlomem a vnořeným bílým
+a tmavým čtvercem). Pro tisk a velké formáty si vyžádej originální vektor.
 
 ## Struktura úvodní stránky
 
