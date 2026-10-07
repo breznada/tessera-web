@@ -37,11 +37,34 @@ jen na výplně. Proto je web tmavý: je to register, ve kterém má značka pln
 Kontrast: zlatá na navy 12,3:1, text 16,4:1, tlumený text 5,3:1.
 
 Písmo: **Outfit** (nadpisy, UI) a **JetBrains Mono** (data, popisky v animacích).
-Outfit je nejbližší volná shoda s geometrickým řezem slovní značky — jednopatrové
-„a", vodorovná zakončení. Slovní značka je psaná **minuskami**, ne verzálkami.
+Slovní značka v logu **není sázená** — je to originální artwork. Outfit je k ní
+nejbližší volná shoda, ale běží znatelně užší, takže se pro samotné logo nepoužívá.
 
-Značka je překreslená jako inline SVG (kosočtverec se zlomem a vnořeným bílým
-a tmavým čtvercem). Pro tisk a velké formáty si vyžádej originální vektor.
+## Značka
+
+V `assets/` je **originální artwork**, ne překreslení. Průhlednost je dopočítaná
+ze dvou dodaných verzí lockupu (na bílé a na navy): pro každý pixel platí
+`P = α·C + (1−α)·pozadí`, a dvě různá pozadí tu soustavu jednoznačně řeší.
+
+Dvě věci, na které ten dopočet sám nestačí a řeší se zvlášť:
+
+- **Prostřední kosočtverec je díra.** Na světlé verzi jím prosvítá bílá, na tmavé
+  navy — není to bílý tvar. Klíčování bílé by ho buď vykouslo, nebo zalepilo.
+- **Slovní značka a středový bod se invertují** (černé na světlé, bílé na tmavé),
+  takže je z těch dvou verzí dopočítat nejde. Vybarvují se popředím.
+
+Navíc nejsou oba soubory zarovnané stejně: mark je posunutý o (−5, +4), text má
+posun jiný, takže se vytahuje po částech — mark soustavou, text přímo z jasu
+světlé verze, kde je černý na bílé.
+
+| Soubor | Použití |
+|---|---|
+| `tessera-lockup.png` | hlavička a patička, bílý text — pro tmavý podklad |
+| `tessera-lockup-on-light.png` | tentýž lockup s černým textem, pro světlý podklad |
+| `tessera-mark.png` | samotná značka, favicon |
+
+Rastr v 1156×308 se v hlavičce vykresluje na 143×38, takže je ostrý i na retině.
+**Pro tisk a velké formáty si vyžádej vektor** — tohle je stále bitmapa.
 
 ## Struktura úvodní stránky
 
