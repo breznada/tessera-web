@@ -1,10 +1,15 @@
-/* Tessera Information Services
-   One colour, by brand rule. Every distinction on this site is made the way the
-   mark makes its own: with weight, fill and space, never with hue.
-     solid      = held, secured, resolved
-     outline    = exposed, unresolved, still in the open
-     inverted   = a finding — the one alarm signal
-     light grey = spent, retired, superseded                                   */
+/* Tessera IT Services s.r.o.
+   Citrine on navy, from the logo concept.
+
+   The brand colour has two roles that are not interchangeable:
+     --gold    a FILL. Always carries --on-gold text. Identical in both themes.
+     --accent  the LINE and TEXT accent. Citrine on the dark theme; navy on the
+               light one, because #EFD750 on white is 1.45:1 and cannot carry a
+               hairline, let alone a word.
+
+   Dark is the default for everyone, whatever the OS says -- the brand lives on
+   the navy ground. Light exists only behind [data-theme="light"], which the
+   header button sets and localStorage remembers. */
 
 :root{
   color-scheme: dark;
@@ -14,7 +19,7 @@
   --rule:#27335A; --hair:#1E2A4C;
   --gold:#EFD750; --on-gold:#0E1730; --accent:#EFD750;
   --a-70:#9EA9C6; --a-45:#5D6A92; --a-25:#3A4670; --a-12:#232F54;
-  --mk-ink:var(--gold); --mk-paper:var(--paper);
+  --lockup-img:url(tessera-lockup.png);
 
   --display:'Outfit','Helvetica Neue',Arial,sans-serif;
   --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
@@ -22,6 +27,25 @@
   --gut:22px; --max:1560px;
   --t-snap:80ms; --t-ui:180ms; --t-move:420ms;
 }
+:root[data-theme="light"]{
+  color-scheme: light;
+  --paper:#F7F8FB; --surf:#FFFFFF; --sunk:#EDF0F6;
+  --ink:#121D3B; --second:#4A5578; --third:#5F6A85;
+  --rule:#D8DEEA; --hair:#E6EAF2;
+  --gold:#EFD750; --on-gold:#121D3B; --accent:#121D3B;
+  --a-70:#4A5578; --a-45:#7B86A0; --a-25:#AEB6C9; --a-12:#DFE4EE;
+  --lockup-img:url(tessera-lockup-on-light.png);
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --paper:#0E1730; --surf:#16213F; --sunk:#1B2850;
+  --ink:#F4F6FB; --second:#9EA9C6; --third:#8795B8;
+  --rule:#27335A; --hair:#1E2A4C;
+  --gold:#EFD750; --on-gold:#0E1730; --accent:#EFD750;
+  --a-70:#9EA9C6; --a-45:#5D6A92; --a-25:#3A4670; --a-12:#232F54;
+  --lockup-img:url(tessera-lockup.png);
+}
+
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--paper);color:var(--ink);
@@ -41,7 +65,8 @@ a{color:inherit}
    versions: the middle diamond is a hole, so the ground shows through, and the
    wordmark and centre pip invert between the light and dark lockups. */
 .brand{display:inline-flex;flex-direction:column;align-items:flex-start;gap:4px;text-decoration:none}
-.lockup{display:block;height:38px;width:auto}
+.lockup{display:block;height:38px;aspect-ratio:578/154;
+  background:var(--lockup-img) left center/contain no-repeat}
 @media(max-width:640px){.lockup{height:32px}}
 .brand .sub{font-family:var(--mono);font-size:8.5px;font-weight:400;letter-spacing:.2em;
   text-transform:uppercase;color:var(--third);padding-left:3px}
@@ -59,6 +84,21 @@ a{color:inherit}
 .site-nav a[aria-current]{font-weight:600}
 .lang{display:flex;align-items:center;gap:2px;margin-left:10px;padding-left:14px;
   border-left:1px solid var(--rule);font-family:var(--mono);font-size:12px}
+/* Theme switch. The icon shows the mode you would switch TO, and CSS decides
+   which one is visible, so the control is right on first paint. */
+.theme{display:inline-flex;align-items:center;justify-content:center;
+  width:36px;height:36px;margin-left:8px;cursor:pointer;
+  background:transparent;border:1px solid var(--rule);border-radius:2px;
+  color:var(--third);transition:color var(--t-ui) ease,border-color var(--t-ui) ease}
+.theme:hover{color:var(--accent);border-color:var(--accent)}
+.theme svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;
+  stroke-linecap:round;stroke-linejoin:round}
+.theme .i-moon{display:none}
+:root[data-theme="light"] .theme .i-sun{display:none}
+:root[data-theme="light"] .theme .i-moon{display:block}
+:root[data-theme="dark"]  .theme .i-sun{display:block}
+:root[data-theme="dark"]  .theme .i-moon{display:none}
+@media(max-width:640px){.theme{margin-left:6px}}
 .lang a,.lang span{padding:7px 7px;text-decoration:none;color:var(--third);border-radius:2px}
 .lang [aria-current]{color:var(--on-gold);background:var(--gold);font-weight:500}
 @media(max-width:640px){
@@ -245,21 +285,31 @@ html{scroll-behavior:smooth}
 .facts div:last-child{border-bottom:0}
 .facts dt{color:var(--third);font-size:10px;letter-spacing:.13em;text-transform:uppercase;padding-top:3px}
 .facts dd{margin:0;color:var(--ink)}
-.people{display:grid;gap:18px;margin-top:22px}
-@media(min-width:760px){.people{grid-template-columns:1fr 1fr}}
+.people{display:grid;gap:18px;margin-top:22px;
+  grid-template-columns:repeat(auto-fit,minmax(300px,460px))}
 .person{border:1px solid var(--hair);border-radius:3px;overflow:hidden;background:var(--surf);
-  display:grid;grid-template-rows:auto 1fr}
-.person .photo{aspect-ratio:4/3;background:var(--sunk);display:grid;place-items:center;
-  border-bottom:1px solid var(--hair)}
-.person .photo svg{width:46px;height:46px;opacity:.3}
-.person .body{padding:18px}
+  display:grid;grid-template-columns:148px minmax(0,1fr);align-items:stretch}
+@media(max-width:460px){.person{grid-template-columns:1fr}}
+.person .photo{display:block;width:100%;height:100%;min-height:148px;object-fit:cover;
+  /* the subject sits right of centre and high in the frame */
+  object-position:62% 28%;background:var(--sunk);border-right:1px solid var(--hair)}
+@media(max-width:460px){.person .photo{aspect-ratio:4/3;height:auto;border-right:0;border-bottom:1px solid var(--hair)}}
+.person .body{padding:17px 18px}
 .person h3{margin:0 0 3px;font-size:19px}
-.person .role{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--third);margin:0 0 12px}
-.person .bio{font-size:14.5px;color:var(--second);margin:0 0 14px;min-height:2.6em}
+.person .role{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);margin:0 0 14px;line-height:1.5}
 .person .rows{display:grid;gap:6px;font-family:var(--mono);font-size:13px}
 .person .rows a{color:var(--second);text-decoration:none}
 .person .rows a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+/* LinkedIn sits in the brand's own colours rather than its blue, so the card
+   stays one palette; the glyph alone carries the recognition */
+.person .li{display:inline-flex;align-items:center;gap:7px;margin-top:15px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+  text-decoration:none;color:var(--accent);
+  border:1px solid var(--rule);border-radius:2px;padding:7px 11px;
+  transition:background-color var(--t-ui) ease,color var(--t-ui) ease,border-color var(--t-ui) ease}
+.person .li svg{width:14px;height:14px;fill:currentColor;flex:none}
+.person .li:hover{background:var(--gold);border-color:var(--gold);color:var(--on-gold)}
 .tbd{color:var(--third);font-style:italic}
 
 @media (prefers-reduced-motion: reduce){
